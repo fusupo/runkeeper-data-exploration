@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <title>Runkeeper Data Exploration</title>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+    <style>
+        #map {
+            height: 500px;
+            width: 600px;
+        }
+    </style>
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.1/papaparse.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+    <script type="text/javascript" src="main.js"></script>
+</head>
+
+<body>
+    <h1>Runkeeper Data Exploration</h1>
+
+    <div id="map"></div>
+
+    <div id="target">Loading...</div>
+
+    <address>
+      <a href="mailto:m@xtof.net">Marc-P. Christophe</a>
+    </address>
+
+    <script id="template" type="x-tmpl-mustache">
+        <ul>
+            {{#data}}
+            <li><b>{{Date}}</b>
+            </li> {{/data}}
+        </ul>
+    </script>
+
+</body>
+
+</html>
