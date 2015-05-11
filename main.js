@@ -8,8 +8,9 @@ $("document").ready(function() {
     var filenames;
     var xmls = [];
 
+    var t_data = [];
+
     var loadSomething = function() {
-        //console.log(filenames.length);
         if (filenames.length > 0) {
             var xhr = $.get("data/" + filenames[0], function(e) {
 
@@ -20,7 +21,17 @@ $("document").ready(function() {
                     $xml = $(xmlDoc),
                     $title = $xml.find("trkseg time").first().text();
                 var day = moment($title);
-                //console.log(day.format("dddd, MMMM Do YYYY, h:mm:ss a"));
+                var b = day.clone();
+
+                console.log(day.startOf('day').toDate());
+                console.log(day.from(b));
+                console.log(b.minutes());
+                console.log(b.hour() + " : " + b.minute());
+
+                t_data.push({
+                    date: day.startOf('day').toDate(),
+                    value: b.hour() + (b.minute() / 60)
+                });
 
                 xmls.push($xml);
 
@@ -29,17 +40,6 @@ $("document").ready(function() {
                     var obj = $(xxx);
                     return [parseFloat(obj.attr('lat')), parseFloat(obj.attr('lon'))];
                 });
-
-                // _.each(points, function(p) {
-                //     var circle = L.circle([p[0], p[1]], 1, {
-                //         color: 'red',
-                //         fillColor: '#f03',
-                //         fillOpacity: 0.5
-                //     }).addTo(map);
-                // });
-
-                // var foo = points.splice(0, 25);
-                // console.log(foo);
 
                 var polyline = L.polyline(points, {
                     color: 'red',
@@ -64,6 +64,16 @@ $("document").ready(function() {
             //         fillOpacity: 0.5
             //     }).addTo(map);
             // });
+
+            MG.data_graphic({
+                title: "Over A Large Span of Days",
+                data: t_data,
+                target: '#time4',
+                width: 600,
+                height: 200,
+                right: 40,
+                chart_type: 'point'
+            });
 
         }
     };
@@ -102,8 +112,8 @@ $("document").ready(function() {
         //     };
         // });
 
-        var rendered = Mustache.render(template, initial_data);
-        $('#target').html(rendered);
+        // var rendered = Mustache.render(template, initial_data);
+        // $('#target').html(rendered);
 
         loadSomething();
         //console.log(files);
@@ -122,18 +132,13 @@ $("document").ready(function() {
     //     alert("finished");
     // });
 
-    // Perform other work here ...
-
-    // Set another completion function for the request above
-    // jqxhr.always(function() {
-    //     alert("second finished");
-    // });
-
+    ///////////
     var map = L.map('map').setView([37.8039, -122.2571], 15);
     //toner-lines
     //terrain-lines
     var layer = new L.StamenTileLayer("toner-background");
     map.addLayer(layer);
+    ///////////
 
     // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     //     attribution: 'who cares',
